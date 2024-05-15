@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\TestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\admin\TestController;
 use Illuminate\Support\Facades\Route;
