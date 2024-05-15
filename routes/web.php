@@ -20,6 +20,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('/send', [TestController::class, 'send'])->name('send');
+
+
 Route::get('/test', [TestController::class , 'index'])->name('test');
 Route::get('/dashboard', [AdminController::class , 'index'])->name('dashboard');
 

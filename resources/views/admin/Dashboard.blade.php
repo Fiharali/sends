@@ -164,14 +164,17 @@
                             </button>
                         </div>
                         <!-- Modal body -->
-                        <form class="p-4 md:p-5">
+<form id="messageForm" action="{{ route('send') }}" method="POST" class="p-4 md:p-5">
+    @csrf
+    <input type="hidden" name="cc" id="hiddenMessage">
+
                             <div class="grid gap-4 mb-4 grid-cols-2">
                                 
                                 <div class="col-span-2">
                                     <label for="description"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Write
                                         Message</label>
-                                    <textarea id="description" rows="4"
+                                    <textarea id="description" rows="4" name="message"
                                         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Write Message that want to send to your clients"></textarea>
                                 </div>
