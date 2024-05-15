@@ -12,8 +12,6 @@
         "laravel/tinker": "^2.8",
         "twilio/sdk": "^8.0"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
         "laravel/breeze": "^1.29",
@@ -24,7 +22,6 @@
         "phpunit/phpunit": "^10.1",
         "spatie/laravel-ignition": "^2.0"
     },
-
     "autoload": {
         "psr-4": {
             "App\\": "app/",
@@ -65,6 +62,7 @@
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
         }
-    }
-
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }
