@@ -29,45 +29,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $phone = '20123456789';
-        $token = 'your_token'; // Replace 'your_token' with your actual Facebook token
-
-        $curl = curl_init();
-        curl_setopt_array(
-            $curl,
-            array(
-                CURLOPT_URL => 'https://graph.facebook.com/v15.0/Phone_id/messages',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => json_encode([
-                    "messaging_product" => "whatsapp",
-                    "to" => $phone,
-                    "type" => "template",
-                    "template" => [
-                        "name" => "hello_world",
-                        "language" => [
-                            "code" => "en_US"
-                        ]
-                    ]
-                ]),
-                CURLOPT_HTTPHEADER => array(
-                    'Authorization: Bearer ' . $token,
-                    'Content-Type: application/json'
-                ),
-            )
-        );
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-        echo $response;
-
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
