@@ -47,15 +47,29 @@ class TestController extends Controller
     }
 
 
-//    public  function  send(){
-//
-//        $whatsappSender = new LaravelWhatsappSender();
-//
-//        $phone = '212612796274';
-//
-//        $message = 'Hello, this is a test message!';
-//
-//        $response = $whatsappSender->sendTextMessage($phone, $message);
-//    }
+    public function send(Request $request)
+    {
+        $sid = env('TWILIO_ACCOUNT_SID');
+        $token = env('TWILIO_AUTH_TOKEN');
+        $whatsappNumber = env('TWILIO_WHATSAPP_NUMBER');
+        $recipientNumber = '600873260';
+        $messageBody = $request->message;
+       // dd($messageBody);
+        $client = new Client($sid, $token);
+
+        try {
+            // Vérifiez si le corps du message est vide
+            if (empty($messageBody)) {
+                throw new Exception("Message body cannot be empty.");
+            }
+    
+            // Créez le message avec Twilio
+            $client->messages->create("whatsapp:+212$recipientNumber", ['from' => $whatsappNumber, 'body' => $messageBody]);
+    
+            return redirect()->back()->with('message', 'Message sent successfully');
+        } catch (Exception $e) {
+            return redirect()->back()->with('message', $e->getMessage());
+        }
+    }
 
 }
