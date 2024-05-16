@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\TestController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\admin\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +20,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', [AdminController::class , 'index'])->name('dashboard');
+Route::post('/send', [TestController::class, 'send'])->name('send');
+
+
 Route::get('/test', [TestController::class , 'index'])->name('test');
-Route::post('/test/{message}', [TestController::class , 'index'])->name('test');
+Route::get('/dashboard', [AdminController::class , 'index'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
