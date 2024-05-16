@@ -134,11 +134,11 @@
     <div class="p-4 sm:ml-64 bg-gray-700 h-screen">
         <div class="p-4  mt-10">
 
-            <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
+            {{-- <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
                 class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 type="button">
                 Message
-            </button>
+            </button> --}}
 
             <!-- Main modal -->
             <div id="crud-modal" tabindex="-1" aria-hidden="true"
@@ -212,8 +212,12 @@
             </div>
             @endif
 
-            <a href="/test"  class=" float-end focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Welcome</a>
-
+            <a href="/test"  class=" float-end focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"> Send Welcome Message </a>
+ <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
+                class=" float-end block  me-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="button">
+               Send New  Message
+            </button>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 

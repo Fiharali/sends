@@ -17,7 +17,7 @@ class TestController extends Controller
         $token = env('TWILIO_AUTH_TOKEN');
         $whatsappNumber = env('TWILIO_WHATSAPP_NUMBER');
         $recipientNumber = '+212600873260';
-        $message = 'welcome ';
+        $message = 'welcome  ';
 
         $client = new Client($sid, $token);
 
@@ -52,24 +52,31 @@ class TestController extends Controller
         $sid = env('TWILIO_ACCOUNT_SID');
         $token = env('TWILIO_AUTH_TOKEN');
         $whatsappNumber = env('TWILIO_WHATSAPP_NUMBER');
-        $recipientNumber = '600873260';
-        $messageBody = $request->message;
-       // dd($messageBody);
+        //$recipientNumber = '+212600873260';
+        $message = $request->message;
+
         $client = new Client($sid, $token);
 
         try {
-            // Vérifiez si le corps du message est vide
-            if (empty($messageBody)) {
-                throw new Exception("Message body cannot be empty.");
-            }
-    
-            // Créez le message avec Twilio
-            $client->messages->create("whatsapp:+212$recipientNumber", ['from' => $whatsappNumber, 'body' => $messageBody]);
-    
-            return redirect()->back()->with('message', 'Message sent successfully');
+            $users = User::all();
+            // dd($users);
+
+          //  if ($users->count() > 0) {
+                foreach ($users as $user) {
+
+                    if ($user->phone) {
+                        $recipientNumber = $user->phone;
+                        $client->messages->create("whatsapp:+212$recipientNumber", ['from' => $whatsappNumber, 'body' => $message,]);
+                        $user->sends = $user->sends + 1;
+                        $user->save();
+                    }
+               }
+                return redirect()->back()->with(['message', 'message sent with success ']);
+            
         } catch (Exception $e) {
-            return redirect()->back()->with('message', $e->getMessage());
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
+
     }
 
 }
