@@ -11,7 +11,7 @@ use Twilio\Rest\Client;
 class TestController extends Controller
 {
 
-    public function index()
+    public function index(Request $request )
     {
         $sid = env('TWILIO_ACCOUNT_SID');
         $token = env('TWILIO_AUTH_TOKEN');

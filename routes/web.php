@@ -22,6 +22,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [AdminController::class , 'index'])->name('dashboard');
 Route::get('/test', [TestController::class , 'index'])->name('test');
+Route::post('/test/{message}', [TestController::class , 'index'])->name('test');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
