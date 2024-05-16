@@ -134,11 +134,11 @@
     <div class="p-4 sm:ml-64 bg-gray-700 h-screen">
         <div class="p-4  mt-10">
 
-            <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
+            {{-- <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
                 class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 type="button">
                 Message
-            </button>
+            </button> --}}
 
             <!-- Main modal -->
             <div id="crud-modal" tabindex="-1" aria-hidden="true"
@@ -164,14 +164,17 @@
                             </button>
                         </div>
                         <!-- Modal body -->
-                        <form class="p-4 md:p-5">
+<form id="messageForm" action="{{ route('send') }}" method="POST" class="p-4 md:p-5">
+    @csrf
+    <input type="hidden" name="cc" id="hiddenMessage">
+
                             <div class="grid gap-4 mb-4 grid-cols-2">
                                 
                                 <div class="col-span-2">
                                     <label for="description"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Write
                                         Message</label>
-                                    <textarea id="description" rows="4"
+                                    <textarea id="description" rows="4" name="message"
                                         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Write Message that want to send to your clients"></textarea>
                                 </div>
@@ -209,8 +212,12 @@
             </div>
             @endif
 
-            <a href="/test"  class=" float-end focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Welcome</a>
-
+            <a href="/test"  class=" float-end focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"> Send Welcome Message </a>
+ <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
+                class=" float-end block  me-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="button">
+               Send New  Message
+            </button>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 
