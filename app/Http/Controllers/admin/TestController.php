@@ -56,7 +56,7 @@ class TestController extends Controller
         $sid = env('TWILIO_ACCOUNT_SID');
         $token = env('TWILIO_AUTH_TOKEN');
         $whatsappNumber = env('TWILIO_WHATSAPP_NUMBER');
-        //$recipientNumber = '+212600873260';
+        $recipientNumber = '+212600873260';
         $message = $request->message;
 
         $client = new Client($sid, $token);
@@ -82,15 +82,19 @@ class TestController extends Controller
     public function sendMail(Request $request)
     {
         $viewData = [
-            'subject' => 'StryveSolution',
-            'message' => 'Hello This is the Message',
+            'subject' => 'stryve',
+            'message' => 'welcome in stryve',
         ];
-        try {
 
-            Mail::to('bilal.chbanat2003@gmail.com')->send(new SendMessage($viewData));
-            return redirect()->back()->with(['mail', 'message sent with success ']);
+        try {
+            $users = User::all();
+
+            foreach ($users as $user) {
+                Mail::to($user->email)->send(new SendMessage($viewData));
+            }
+            return redirect()->back()->with('success', 'Message sent to all users successfully');
         } catch (Exception $th) {
-            return redirect()->back()->with(['mail', $th->getMessage()]);
+            return redirect()->back()->with('error', $th->getMessage());
         }
     }
 
