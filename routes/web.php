@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\admin\TestController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\AdminController;
+use App\Mail\SendMessage;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +23,10 @@ Route::get('/', function () {
 });
 
 Route::post('/send', [TestController::class, 'send'])->name('send');
+
+// Route::post('/send-email', [TestController::class, 'sendMail'])->name('send.email');
+Route::get('/send-email', [TestController::class, 'sendMail'])->name('send.email');
+
 
 
 Route::get('/test', [TestController::class , 'index'])->name('test');
