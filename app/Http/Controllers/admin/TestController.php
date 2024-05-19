@@ -7,11 +7,13 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Twilio\Rest\Client;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMessage;
 
 class TestController extends Controller
 {
 
-    public function index(Request $request )
+    public function index(Request $request)
     {
         $sid = env('TWILIO_ACCOUNT_SID');
         $token = env('TWILIO_AUTH_TOKEN');
@@ -61,22 +63,37 @@ class TestController extends Controller
             $users = User::all();
             // dd($users);
 
-          //  if ($users->count() > 0) {
-                foreach ($users as $user) {
+            //  if ($users->count() > 0) {
+            foreach ($users as $user) {
 
-                    if ($user->phone) {
-                        $recipientNumber = $user->phone;
-                        $client->messages->create("whatsapp:+212$recipientNumber", ['from' => $whatsappNumber, 'body' => $message,]);
-                        $user->sends = $user->sends + 1;
-                        $user->save();
-                    }
-               }
-                return redirect()->back()->with(['message', 'message sent with success ']);
-            
+                if ($user->phone) {
+                    $recipientNumber = $user->phone;
+                    $client->messages->create("whatsapp:+212$recipientNumber", ['from' => $whatsappNumber, 'body' => $message,]);
+                    $user->sends = $user->sends + 1;
+                    $user->save();
+                }
+            }
+            return redirect()->back()->with(['message', 'message sent with success ']);
+
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
 
     }
+    public function sendMail(Request $request)
+    {
+        $viewData = [
+            'subject' => 'StryveSolution',                 //$request->subject,
+            'message' => 'Hellow This is the Message',                //$request->message,
+        ];
+        try {
+
+            Mail::to('bilal.chbanat2003@gmail.com')->send(new SendMessage($viewData));
+            return redirect()->back()->with(['mail', 'message sent with success ']);
+        } catch (Exception $th) {
+            return redirect()->back()->with(['mail', $th->getMessage()]);
+        }
+    }
+
 
 }
