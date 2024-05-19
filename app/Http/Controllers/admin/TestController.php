@@ -13,11 +13,11 @@ class TestController extends Controller
 
     public function index()
     {
+
         $sid = env('TWILIO_ACCOUNT_SID');
         $token = env('TWILIO_AUTH_TOKEN');
         $whatsappNumber = env('TWILIO_WHATSAPP_NUMBER');
-        $recipientNumber = '+212600873260';
-        $message = 'welcome ';
+        $message = 'welcome from admin  ';
 
         $client = new Client($sid, $token);
 
@@ -33,10 +33,11 @@ class TestController extends Controller
                         $client->messages->create("whatsapp:+212$recipientNumber", ['from' => $whatsappNumber, 'body' => $message,]);
                         $user->sends = 1;
                         $user->save();
+
                     }
                 }
-
                 return redirect()->back()->with(['message', 'message sent with success ']);
+
             } else {
                 //dd(2);
                 return redirect()->back()->with('message', 'No users available to send the message to.');
