@@ -18,6 +18,7 @@ class TestController extends Controller
         $token = env('TWILIO_AUTH_TOKEN');
         $whatsappNumber = env('TWILIO_WHATSAPP_NUMBER');
         $message = 'welcome from admin  ';
+        $recipientNumber = '+212612796274';
 
         $client = new Client($sid, $token);
 
@@ -48,15 +49,36 @@ class TestController extends Controller
     }
 
 
-//    public  function  send(){
-//
-//        $whatsappSender = new LaravelWhatsappSender();
-//
-//        $phone = '212612796274';
-//
-//        $message = 'Hello, this is a test message!';
-//
-//        $response = $whatsappSender->sendTextMessage($phone, $message);
-//    }
+    public function send(Request $request)
+    {
+        $sid = env('TWILIO_ACCOUNT_SID');
+        $token = env('TWILIO_AUTH_TOKEN');
+        $whatsappNumber = env('TWILIO_WHATSAPP_NUMBER');
+        //$recipientNumber = '+212600873260';
+        $message = $request->message;
+
+        $client = new Client($sid, $token);
+
+        try {
+            $users = User::all();
+            // dd($users);
+
+          //  if ($users->count() > 0) {
+                foreach ($users as $user) {
+
+                    if ($user->phone) {
+                        $recipientNumber = $user->phone;
+                        $client->messages->create("whatsapp:+212$recipientNumber", ['from' => $whatsappNumber, 'body' => $message,]);
+                        $user->sends = $user->sends + 1;
+                        $user->save();
+                    }
+               }
+                return redirect()->back()->with(['message', 'message sent with success ']);
+
+        } catch (Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
+
+    }
 
 }
