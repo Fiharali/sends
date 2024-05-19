@@ -83,15 +83,20 @@ class TestController extends Controller
     public function sendMail(Request $request)
     {
         $viewData = [
-            'subject' => 'StryveSolution',                 //$request->subject,
-            'message' => 'Hellow This is the Message',                //$request->message,
+            'subject' => $request->subject,
+            'message' => $request->message,
         ];
-        try {
 
-            Mail::to('bilal.chbanat2003@gmail.com')->send(new SendMessage($viewData));
-            return redirect()->back()->with(['mail', 'message sent with success ']);
+        try {
+            $users = User::all();
+
+            foreach ($users as $user) {
+                Mail::to($user->email)->send(new SendMessage($viewData));
+            }
+
+            return redirect()->back()->with('success', 'Message sent to all users successfully');
         } catch (Exception $th) {
-            return redirect()->back()->with(['mail', $th->getMessage()]);
+            return redirect()->back()->with('error', $th->getMessage());
         }
     }
 
