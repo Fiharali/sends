@@ -31,6 +31,7 @@ Route::get('/send-email', [TestController::class, 'sendMail'])->name('send.email
 
 Route::get('/test', [TestController::class , 'index'])->name('test');
 Route::get('/dashboard', [AdminController::class , 'index'])->name('dashboard');
+Route::post('/send-selected-users', [AdminController::class , 'sendSelectedUsers'])->name('sendSelectedUsers');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

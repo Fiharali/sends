@@ -193,6 +193,58 @@
                     </div>
                 </div>
             </div>
+            <div id="selected-modal" tabindex="-1" aria-hidden="true"
+                 class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative p-4 w-full max-w-md max-h-full">
+                    <!-- Modal content -->
+                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                        <!-- Modal header -->
+                        <div
+                            class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                Create New Product
+                            </h3>
+                            <button type="button"
+                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                    data-modal-toggle="selected-modal">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                     fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                          stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <!-- Modal body -->
+                        <form id="messageForm"  class="p-4 md:p-5">
+                            @csrf
+                            <input type="hidden" name="cc" id="hiddenMessage">
+
+                            <div class="grid gap-4 mb-4 grid-cols-2">
+
+                                <div class="col-span-2">
+                                    <label for="selected-textarea"
+                                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Write n
+                                        Message</label>
+                                    <textarea id="selected-textarea" rows="4" name="message"
+                                              class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                              placeholder="Write Message that want to send to your clients"></textarea>
+                                </div>
+                            </div>
+                            <button id="submit-selected-users"
+                                    class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                          d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                          clip-rule="evenodd"></path>
+                                </svg>
+                                SUBMIT
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <div class="relative overflow-x-auto ">
                 @if (session('message'))
                     <div id="alert-3"
@@ -227,19 +279,29 @@
                     <a href="{{ route('send.email') }}"
                         class=" mx-6 float-end focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">
                         Send Welcome Message To E-mail </a>
-                
+
                 <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
                     class=" float-end block  me-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     type="button">
                     Send New Message
                 </button>
+                    <button  data-modal-target="selected-modal" data-modal-toggle="selected-modal"
+                            class=" float-end block  me-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            type="button">
+                        Send msg for selected users
+                    </button>
                 @if (session('message'))
                     <p>{{ session('message') }}</p>
                 @endif
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-
                         <tr>
+                            <th scope="col" class="p-4">
+                                <div class="flex items-center">
+                                    <input id="checkbox-all" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <label for="checkbox-all" class="sr-only">checkbox</label>
+                                </div>
+                            </th>
                             <th scope="col" class="px-6 py-3">
                                 name
                             </th>
@@ -257,6 +319,12 @@
                     <tbody>
                         @foreach ($users as $user)
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <td class="w-4 p-4">
+                                    <div class="flex items-center">
+                                        <input id="checkbox-{{ $user->id }}" type="checkbox"  data-user-id="{{ $user->id }}" class=" checkbox-table-search w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                        <label for="checkbox-{{ $user->id }}" class="sr-only">checkbox</label>
+                                    </div>
+                                </td>
                                 <th scope="row"
                                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $user->name }}
@@ -287,7 +355,50 @@
 
         </div>
     </div>
+    <script>
+        document.getElementById('checkbox-all').addEventListener('change', function(e) {
+
+            console.log('dfhsouj')
+            let checkboxes = document.querySelectorAll('.checkbox-table-search');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = e.target.checked;
+            });
+        });
+
+        document.getElementById('submit-selected-users').addEventListener('click', function(e) {
+            e.preventDefault()
+            let selectedUserIds = [];
+            let checkboxes = document.querySelectorAll('.checkbox-table-search:checked');
+            let message = document.getElementById('selected-textarea');
+            checkboxes.forEach(checkbox => {
+                selectedUserIds.push(checkbox.getAttribute('data-user-id'));
+            });
+
+            //console.log(selectedUserIds)
+
+            fetch('/send-selected-users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    selected_users: selectedUserIds,
+                    message:message.value
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        })
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+
 
 </body>
 
